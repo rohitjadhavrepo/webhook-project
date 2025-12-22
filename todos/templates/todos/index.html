@@ -5,15 +5,96 @@
 {% endblock %}
 
 {% block content %}
+
+<!-- Added styles for background & responsiveness -->
+<style>
+  body {
+    background: linear-gradient(135deg, #74ebd5, #acb6e5);
+    min-height: 100vh;
+  }
+
+  .container {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  .page-header h1 {
+    text-align: center;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  .form-control {
+    border-radius: 8px;
+  }
+
+  .btn {
+    width: 100%;
+    border-radius: 8px;
+  }
+
+  .list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    word-break: break-word;
+  }
+
+  .list-group-item form {
+    margin-right: 10px;
+  }
+
+  .todo-complete {
+    text-decoration: line-through;
+    color: gray;
+    background-color: #f1f1f1;
+  }
+
+  .todo-status-checkbox {
+    cursor: pointer;
+    margin-right: 10px;
+  }
+
+  .fa-trash-alt {
+    color: #dc3545;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .fa-trash-alt:hover {
+    color: #a71d2a;
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+    }
+
+    .form-row .col-md-6 {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .list-group-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .list-group-item a {
+      align-self: flex-end;
+    }
+  }
+</style>
+
 <div class="container">
 
   <!-- title row -->
   <div class="row">
     <div class="offset-md-2 col-lg-9">
       <div class="page-header">
-        <h1>
-          Todo List
-        </h1>
+        <h1>Todo List</h1>
       </div>
     </div>
   </div>
@@ -25,10 +106,20 @@
         {% csrf_token %}
         <div class="form-row">
           <div class="col-md-6">
-            <input type="text" class="form-control" name="title" placeholder="Do laundry" required>
+            <input
+              type="text"
+              class="form-control"
+              name="title"
+              placeholder="Do laundry"
+              required
+            >
           </div>
           <div class="col-md-6">
-            <button type="submit" name="submit" class="btn btn-outline-primary">
+            <button
+              type="submit"
+              name="submit"
+              class="btn btn-outline-primary"
+            >
               Add
             </button>
           </div>
@@ -36,6 +127,7 @@
       </form>
     </div>
   </div>
+
   <hr />
 
   <!-- todo list row -->
@@ -44,21 +136,33 @@
       <div class="list-group">
         {% for todo in todo_list %}
         <div class="list-group-item {% if todo.isCompleted %} todo-complete {% endif %}">
-          <form style="display: inline;" method="post" action="{% url 'todos:update' todo.id %}">
-            {% csrf_token %}
-            <input type="checkbox" name="isCompleted" onchange="this.form.submit()" {% if todo.isCompleted %} checked
-              {% endif %} class="todo-status-checkbox"
-              title="{% if not todo.isCompleted %} mark as done {% else %} mark undone {% endif %}">
-          </form>
-          {{ todo.title }}
+          
+          <div>
+            <form style="display: inline;" method="post" action="{% url 'todos:update' todo.id %}">
+              {% csrf_token %}
+              <input
+                type="checkbox"
+                name="isCompleted"
+                onchange="this.form.submit()"
+                {% if todo.isCompleted %} checked {% endif %}
+                class="todo-status-checkbox"
+                title="{% if not todo.isCompleted %}mark as done{% else %}mark undone{% endif %}"
+              >
+            </form>
+            {{ todo.title }}
+          </div>
+
           <a href="{% url 'todos:delete' todo.id %}" title="Delete">
             <i class="far fa-trash-alt"></i>
           </a>
+
         </div>
         {% endfor %}
       </div>
     </div>
   </div>
+
 </div>
 
 {% endblock %}
+
