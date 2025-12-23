@@ -27,7 +27,7 @@ SECRET_KEY = '8)810zj@#^2xp=1=2rkozbv8#)gub6m1a^9qf&)d-9&x9*c2a_'
 # this is the 6 verstion
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.209.5.5', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['https://anthropometrically-grumbly-brayan.ngrok-free.dev', 'localhost', '127.0.0.1']
 
 
 # Application definition
